@@ -1,404 +1,610 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../Assests/Kannan Infra Projects Logo.jpg";
+
+/* ------------------------------------------------------------------ */
+/*  IMAGE IMPORTS — replace these paths with your actual image files  */
+/*  Keep the variable names as-is, just point them to your real files */
+/* ------------------------------------------------------------------ */
+import heroBagImage from "../Assests/hero-tile-fix-bag.png";
+import productOverviewImage from "../Assests/product-overview-applying-adhesive.jpg";
+import ceramicTilesImg from "../Assests/application-ceramic-tiles.jpg";
+import vitrifiedTilesImg from "../Assests/application-vitrified-tiles.jpg";
+import largeFormatTilesImg from "../Assests/application-large-format-tiles.jpg";
+import floorTileImg from "../Assests/application-floor-tile.jpg";
+import prepareSurfaceImg from "../Assests/step-01-prepare-surface.jpg";
+import prepareAdhesiveImg from "../Assests/step-02-prepare-adhesive.jpg";
+import applyEvenlyImg from "../Assests/step-03-apply-evenly.jpg";
+import positionTileImg from "../Assests/step-04-position-tile.jpg";
+import allowToSetImg from "../Assests/step-05-allow-to-set.jpg";
+import ctaBannerImg from "../Assests/cta-banner-tile-floor.jpg";
+import footerProductImg from "../Assests/footer-tile-fix-bag.png";
 
 import {
   Link2,
   ShieldCheck,
-  Dumbbell,
-  Clock,
-  FlaskConical,
-  Droplet,
-  Wrench,
-  Leaf,
+  PaintBucket,
+  Grid3x3,
   ArrowRight,
-  Brush,
-  Wand2,
-  LayoutGrid,
-  Timer,
+  Award,
+  Gem,
+  Settings2,
   BadgeCheck,
-  Headphones,
+  Package,
+  Weight,
+  Droplet,
+  Square,
+  Grid2x2,
+  Plus,
+  Mail,
+  MapPin,
   Phone,
+  ChevronRight,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Small reusable bits                                               */
 /* ------------------------------------------------------------------ */
 
-const FeaturePill = ({ Icon, label }) => (
-  <div className="flex flex-col items-center gap-3 w-28">
-    <div className="w-16 h-16 rounded-full border-2 border-yellow-400 flex items-center justify-center bg-white shadow-sm">
-      <Icon className="w-7 h-7 text-yellow-500" strokeWidth={1.75} />
+const StatItem = ({ Icon, title, desc }) => (
+  <div className="flex items-start gap-2">
+    <Icon className="w-4 h-4 text-gray-700 mt-0.5 shrink-0" strokeWidth={1.75} />
+    <div>
+      <p className="text-xs font-bold text-gray-900 leading-tight">{title}</p>
+      <p className="text-[11px] text-gray-500 leading-tight">{desc}</p>
     </div>
-    <span className="text-xs font-semibold tracking-wide text-gray-800 text-center">
+  </div>
+);
+
+const FeatureCard = ({ Icon, title, desc }) => (
+  <div className="flex-1 min-w-[180px] flex flex-col items-center text-center gap-3 px-4 py-2">
+    <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
+      <Icon className="w-6 h-6 text-red-600" strokeWidth={1.75} />
+    </div>
+    <p className="text-sm font-bold text-gray-900">{title}</p>
+    <p className="text-xs text-gray-500 leading-snug">{desc}</p>
+  </div>
+);
+
+const OverviewFact = ({ Icon, label, value }) => (
+  <div className="flex items-center gap-2">
+    <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+      <Icon className="w-4 h-4 text-red-600" strokeWidth={1.75} />
+    </div>
+    <div>
+      <p className="text-[11px] text-gray-500 leading-tight">{label}</p>
+      <p className="text-xs font-bold text-gray-900 leading-tight">{value}</p>
+    </div>
+  </div>
+);
+
+const AppCard = ({ img, label }) => (
+  <div className="relative rounded-lg overflow-hidden aspect-[4/3] group">
+    <img
+      src={img}
+      alt={label}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      loading="lazy"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+    <span className="absolute bottom-3 left-3 text-white font-bold text-sm leading-tight">
       {label}
     </span>
   </div>
 );
 
-const StripItem = ({ Icon, title, desc }) => (
-  <div className="flex flex-col items-center text-center gap-2 px-4">
-    <Icon className="w-7 h-7 text-yellow-500" strokeWidth={1.75} />
-    <span className="text-xs font-bold tracking-wider text-gray-900">
-      {title}
-    </span>
-    <p className="text-xs text-gray-600 leading-snug max-w-[9rem]">{desc}</p>
-  </div>
-);
-
-const StepItem = ({ Icon, step, title, desc, isLast }) => (
-  <div className="flex items-center gap-4">
-    <div className="flex flex-col items-center gap-3 w-36">
-      <div className="w-16 h-16 rounded-full border-2 border-yellow-400 bg-yellow-50 flex items-center justify-center">
-        <Icon className="w-7 h-7 text-yellow-500" strokeWidth={1.75} />
-      </div>
-      <span className="text-xs font-bold tracking-wider text-gray-900">
-        {step}
-      </span>
-      <p className="text-[11px] text-gray-600 text-center leading-snug">
-        {desc}
-      </p>
-    </div>
-    {!isLast && (
-      <ArrowRight className="w-5 h-5 text-yellow-400 shrink-0 hidden md:block" />
-    )}
-  </div>
-);
-
 const SpecRow = ({ label, value, alt }) => (
   <div
-    className={`flex justify-between px-4 py-2 text-sm ${
-      alt ? "bg-yellow-50" : "bg-white"
+    className={`flex justify-between px-4 py-2.5 text-xs ${
+      alt ? "bg-gray-50" : "bg-white"
     }`}
   >
-    <span className="font-semibold text-gray-700">{label}</span>
-    <span className="text-gray-600">{value}</span>
+    <span className="font-bold text-gray-700">{label}</span>
+    <span className="text-gray-500 text-right">{value}</span>
   </div>
 );
 
-const TrustItem = ({ Icon, title, desc }) => (
+const WhyItem = ({ Icon, title, desc }) => (
   <div className="flex items-start gap-3">
-    <div className="w-10 h-10 rounded-full bg-white border border-yellow-300 flex items-center justify-center shrink-0">
-      <Icon className="w-5 h-5 text-yellow-500" strokeWidth={1.75} />
-    </div>
-    <div>
-      <p className="text-sm font-bold text-gray-900">{title}</p>
-      <p className="text-xs text-gray-600">{desc}</p>
-    </div>
-  </div>
-);
-
-const FooterMark = ({ Icon, title, desc }) => (
-  <div className="flex items-center gap-3">
-    <div className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center shrink-0">
+    <div className="w-9 h-9 rounded-md bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center shrink-0">
       <Icon className="w-4 h-4 text-yellow-400" strokeWidth={1.75} />
     </div>
     <div>
-      <p className="text-xs font-bold text-white">{title}</p>
-      <p className="text-[11px] text-white/60">{desc}</p>
+      <p className="text-sm font-bold text-white">{title}</p>
+      <p className="text-xs text-gray-400 leading-snug">{desc}</p>
     </div>
   </div>
 );
 
+const ProcessStep = ({ num, title, img }) => (
+  <div className="flex-1 min-w-[130px] bg-white border border-gray-100 rounded-xl shadow-sm p-3">
+    <div className="flex items-center gap-2 mb-3">
+      <span className="w-7 h-7 rounded-full border-2 border-red-600 text-red-600 bg-white text-[11px] font-bold flex items-center justify-center shrink-0">
+        {num}
+      </span>
+      <p className="text-xs font-bold text-gray-900 leading-tight">
+        {title}
+      </p>
+    </div>
+    <div className="rounded-lg overflow-hidden aspect-[4/3] bg-gray-100">
+      <img src={img} alt={title} className="w-full h-full object-cover md:object-fill" loading="lazy" />
+    </div>
+  </div>
+);
+
+const ProcessArrow = () => (
+  <div className="hidden md:flex items-center justify-center shrink-0 px-1">
+    <ChevronRight className="w-5 h-5 text-gray-300" strokeWidth={2} />
+  </div>
+);
+
+const FaqItem = ({ q }) => (
+  <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-3.5">
+    <span className="text-sm font-semibold text-gray-800">{q}</span>
+    <Plus className="w-4 h-4 text-gray-400 shrink-0" />
+  </div>
+);
+
+const FooterCol = ({ title, links }) => (
+  <div>
+    <p className="text-white font-bold text-xs tracking-wider mb-4">
+      {title}
+    </p>
+
+    <ul className="space-y-2.5">
+      {links.map((l) => (
+        <li key={l}>
+          <Link
+            to={
+              l === "HOME"
+                ? "/"
+                : l === "ABOUT US"
+                ? "/about"
+                : l === "READY MIX"
+                ? "/readymix"
+                : l === "K BLOCKS"
+                ? "/kblocks"
+                : l === "BLUE METALS"
+                ? "/bluemetals"
+                : "/contact"
+            }
+            className="text-gray-400 text-xs hover:text-yellow-400"
+          >
+            {l}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
 /* ------------------------------------------------------------------ */
-/*  Main component                                                    */
+/*  Main component (navbar NOT included — mount this below your own   */
+/*  navbar component)                                                 */
 /* ------------------------------------------------------------------ */
 
 export default function TileFixPro() {
+  const applications = [
+    { label: "Ceramic Tiles", img: ceramicTilesImg },
+    { label: "Vitrified Tiles", img: vitrifiedTilesImg },
+    { label: "Large-Format Tiles", img: largeFormatTilesImg },
+    { label: "Floor Tile Applications", img: floorTileImg },
+  ];
+
   const specs = [
-    ["Appearance", "Grey Powder"],
-    ["Base", "Cement based with polymer"],
-    ["Bulk Density", "1.4 ± 0.1 g/cc"],
-    ["Water Demand", "24% – 26%"],
-    ["Open Time", "> 20 minutes"],
-    ["Adjustability Time", "> 15 minutes"],
-    ["Pot Life", "2 – 3 hours"],
-    ["Compressive Strength", "> 20 N/mm²"],
-    ["Packaging", "20 kg"],
+    ["Product", "Latafix Floor Tile Adhesive 305"],
+    ["Brand", "Tile Fix Pro"],
+    ["Net Weight", "20 KG"],
+    ["Color", "Grey"],
+    ["Suitable Tiles", "Ceramic, Vitrified & Large-Format Tiles"],
+    ["Open Time", "Approx. 20 Minutes"],
+    ["Setting Time", "Approx. 24 Hours"],
+    ["Coverage", "Approx. 50–60 sq. ft. per 20 KG"],
+  ];
+
+  const steps = [
+    { num: "01", title: "Prepare the Surface", img: prepareSurfaceImg },
+    { num: "02", title: "Prepare the Adhesive", img: prepareAdhesiveImg },
+    { num: "03", title: "Apply Evenly", img: applyEvenlyImg },
+    { num: "04", title: "Position the Tile", img: positionTileImg },
+    { num: "05", title: "Allow to Set", img: allowToSetImg },
+  ];
+
+  const faqsLeft = [
+    "What is Tile Fix Pro?",
+    "Which tiles can be installed using Tile Fix Pro?",
+    "What is the coverage of one 20 KG bag?",
+  ];
+  const faqsRight = [
+    "What is the open time?",
+    "How long does Tile Fix Pro take to set?",
+    "What color is Tile Fix Pro?",
   ];
 
   return (
     <div className="w-full min-h-screen bg-white font-sans text-gray-900">
-      {/* NAVBAR */}
-      <header className="w-full bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-          <div className="flex items-center gap-2">
-            <img
-              src={logo}
-              alt="KIPIPL logo"
-              className="w-9 h-9 object-contain"
-            />
-            <div className="leading-tight">
-              <p className="font-extrabold tracking-wide text-sm text-gray-900">
-                KIPIPL
-              </p>
-              <p className="text-[9px] text-gray-500 tracking-wide">
-                KANNAN KIRPA PROJECTS CHENNAI PVT. LTD.
-              </p>
-            </div>
-          </div>
-          <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold text-gray-700">
-            <Link to="/">HOME</Link>
-<Link to="/about">ABOUT US</Link>
-<Link to="/readymix">READY MIX</Link>
-<Link to="/kblocks">K BLOCKS</Link>
-<Link to="/bluemetals">BLUE METALS</Link>
-<Link to="/knowledge/blog">KNOWLEDGE</Link>
-          </nav>
-          <Link
-            to="/contact-us"
-            className="bg-yellow-400 text-white font-bold text-xs px-5 py-2.5 rounded-sm hover:bg-yellow-500 transition-colors"
-          >
-            CONTACT US
-          </Link>
-        </div>
-      </header>
-
       {/* HERO */}
-      <section className="relative bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 px-6 py-14 items-center">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-black leading-tight">
-              <span className="text-gray-900">TILE FIX </span>
-              <span className="text-yellow-500">PRO</span>
-            </h1>
-            <p className="mt-3 text-lg font-semibold text-gray-800">
-              Stronger Bond. Superior Finish.
-              <br />
-              Built to Perfection.
-            </p>
-            <div className="w-14 h-1 bg-yellow-400 my-4 rounded-full" />
-            <p className="text-sm text-gray-600 leading-relaxed max-w-md">
-              Tile Fix Pro is a premium quality, polymer modified tile
-              adhesive designed for superior bonding strength, long-lasting
-              performance and ease of application.
-            </p>
+      {/* HERO */}
+<section
+  className="relative min-h-[560px] overflow-hidden bg-cover bg-center bg-no-repeat"
+  style={{
+    backgroundImage: `linear-gradient(
+      90deg,
+      rgba(255,255,255,0.98) 0%,
+      rgba(255,255,255,0.90) 30%,
+      rgba(255,255,255,0.45) 55%,
+      rgba(255,255,255,0.05) 80%
+    ), url(${heroBagImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  }}
+>
+  <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
 
-            <div className="flex gap-6 mt-8 flex-wrap">
-              <FeaturePill Icon={Link2} label="STRONG BOND" />
-              <FeaturePill Icon={ShieldCheck} label="WATER RESISTANT" />
-              <FeaturePill Icon={Dumbbell} label="HIGH STRENGTH" />
-              <FeaturePill Icon={Clock} label="LONG LASTING" />
-            </div>
-          </div>
+    <div className="max-w-xl">
 
-          {/* Product shot placeholder */}
-          <div className="relative flex justify-center">
-            <div className="relative w-64 rounded-2xl bg-white border border-gray-200 shadow-2xl p-5 text-gray-900 overflow-hidden">
-              <div className="h-1.5 w-full bg-yellow-400 absolute top-0 left-0" />
-              <div className="flex items-center gap-2 mb-4 mt-2">
-                <div className="w-7 h-7 rounded-full bg-yellow-400 flex items-center justify-center">
-                  <span className="text-white font-black text-xs">K</span>
-                </div>
-                <span className="font-extrabold text-xs tracking-wide text-gray-900">
-                  KIPIPL
-                </span>
-              </div>
-              <p className="text-2xl font-black leading-none text-gray-900">
-                TILE FIX
-              </p>
-              <p className="text-3xl font-black leading-none text-yellow-500">
-                PRO
-              </p>
-              <p className="text-[10px] font-semibold tracking-widest mt-2 text-gray-500">
-                PREMIUM TILE ADHESIVE
-              </p>
-              <ul className="mt-5 space-y-1.5 text-[11px] font-medium text-gray-700">
-                <li>◆ Strong Bond</li>
-                <li>◆ Water Resistant</li>
-                <li>◆ High Strength</li>
-                <li>◆ Long Lasting</li>
-              </ul>
-              <div className="mt-8 flex justify-between items-end">
-                <div className="w-10 h-10 rounded-full border-2 border-gray-200" />
-                <span className="text-[11px] font-bold bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                  NET WEIGHT 20 kg
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <p className="text-xs font-bold text-red-600 mb-3">
+        KIPIPL KNOWLEDGE
+        <span className="text-gray-400 mx-2">→</span>
+        TILE FIX PRO
+      </p>
 
-      {/* FEATURE STRIP */}
-      <section className="bg-gray-50 border-y border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-around gap-6 px-6">
-          <StripItem
-            Icon={FlaskConical}
-            title="POLYMER MODIFIED"
-            desc="Enhanced bonding with polymer technology"
-          />
-          <StripItem
-            Icon={Droplet}
-            title="WATER RESISTANT"
-            desc="Suitable for dry & wet areas"
-          />
-          <StripItem
-            Icon={Clock}
-            title="EASY TO APPLY"
-            desc="Smooth application and better workability"
-          />
-          <StripItem
+      <h1 className="text-5xl md:text-6xl font-black text-gray-900 leading-tight">
+        Tile Fix Pro
+      </h1>
+
+      <p className="text-2xl md:text-3xl font-extrabold text-red-600 mt-2">
+        Engineered for Perfect Fix.
+      </p>
+
+      <p className="mt-5 text-sm md:text-base text-gray-600 leading-relaxed max-w-md">
+        High-performance tile adhesive engineered for strong bonding,
+        reliable holding strength, and easy application across modern
+        tile installations.
+      </p>
+
+      <div className="flex flex-wrap gap-3 mt-7">
+
+        <button className="flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors">
+          Get a Quote
+          <ArrowRight className="w-4 h-4" />
+        </button>
+
+        <button className="flex items-center gap-2 bg-white/80 border border-gray-300 text-gray-800 text-xs font-bold px-6 py-3 rounded-sm hover:bg-white transition-colors">
+          Enquire Now
+          <ArrowRight className="w-4 h-4" />
+        </button>
+
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 mt-10">
+
+        <StatItem
+          Icon={BadgeCheck}
+          title="16+"
+          desc="Years of Experience"
+        />
+
+        <StatItem
+          Icon={Gem}
+          title="Premium"
+          desc="Quality Materials"
+        />
+
+        <StatItem
+          Icon={Settings2}
+          title="Advanced"
+          desc="Manufacturing Process"
+        />
+
+        <StatItem
+          Icon={Award}
+          title="Trusted by"
+          desc="Builders & Professionals"
+        />
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      {/* FEATURE CARD STRIP (overlapping) */}
+      <section className="max-w-6xl mx-auto px-6 -mt-8 relative z-10">
+        <div className="bg-white rounded-xl shadow-xl border border-gray-100 flex flex-wrap justify-around py-6">
+          <FeatureCard
             Icon={Link2}
-            title="STRONG ADHESION"
-            desc="Superior bond strength with tiles & surfaces"
+            title="High Bonding Strength"
+            desc="Strong and dependable adhesion for reliable tile installation."
           />
-          <StripItem
-            Icon={Leaf}
-            title="DURABLE & RELIABLE"
-            desc="Long-lasting performance"
+          <FeatureCard
+            Icon={ShieldCheck}
+            title="Water Resistant"
+            desc="Designed to provide water resistance for suitable applications."
           />
-        </div>
-      </section>
-
-      {/* HOW TO USE */}
-      <section className="max-w-7xl mx-auto px-6 pb-14">
-        <h2 className="text-2xl font-black text-gray-900">HOW TO USE</h2>
-        <div className="w-12 h-1 bg-yellow-400 rounded-full mt-1 mb-10" />
-        <div className="flex flex-wrap gap-6 justify-between">
-          <StepItem
-            Icon={Brush}
-            step="STEP 1"
-            desc="Ensure the surface is clean, dry and free from dust or oil."
+          <FeatureCard
+            Icon={PaintBucket}
+            title="Easy Application"
+            desc="Convenient application for efficient tile-laying work."
           />
-          <StepItem
-            Icon={Wand2}
-            step="STEP 2"
-            desc="Mix Tile Fix Pro with clean water as per the recommended ratio."
-          />
-          <StepItem
-            Icon={Wrench}
-            step="STEP 3"
-            desc="Apply the adhesive using a notched trowel."
-          />
-          <StepItem
-            Icon={LayoutGrid}
-            step="STEP 4"
-            desc="Fix the tiles and press firmly to ensure good bonding."
-          />
-          <StepItem
-            Icon={Timer}
-            step="STEP 5"
-            desc="Allow proper curing for best results."
-            isLast
+          <FeatureCard
+            Icon={Grid3x3}
+            title="Anti-Slip Formula"
+            desc="Helps maintain tile positioning during installation."
           />
         </div>
       </section>
 
-      {/* SPECS + VARIANTS + TRUST */}
-      <section className="max-w-7xl mx-auto px-6 pb-16 grid lg:grid-cols-3 gap-8">
-        {/* Specs */}
+      {/* PRODUCT OVERVIEW */}
+      <section className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
+        <div className="rounded-lg overflow-hidden aspect-[4/3]">
+          <img
+            src={productOverviewImage}
+            alt="Applying tile adhesive"
+            className="w-full h-full object-cover"
+          />
+        </div>
         <div>
-          <h2 className="text-xl font-black text-gray-900">
-            TECHNICAL SPECIFICATIONS
+          <p className="text-xs font-bold text-red-600 tracking-wide mb-2">
+            PRODUCT OVERVIEW
+          </p>
+          <h2 className="text-2xl md:text-3xl font-black text-gray-900 leading-snug">
+            Strong Bond. Reliable Hold.
+            <br /> Better Tile Installation.
           </h2>
-          <div className="w-12 h-1 bg-yellow-400 rounded-full mt-1 mb-5" />
+          <p className="mt-4 text-sm text-gray-600 leading-relaxed">
+            Tile Fix Pro – Latafix Floor Tile Adhesive 305 is a
+            high-performance cement-based adhesive formulated for excellent
+            bonding strength, water resistance, and ease of application.
+            Designed for ceramic, vitrified, and large-format tiles, it
+            ensures long-lasting and durable tile installations.
+          </p>
+          <div className="flex flex-wrap gap-6 mt-6">
+            <OverviewFact Icon={Package} label="Product" value="Latafix Floor Tile Adhesive 305" />
+            <OverviewFact Icon={Weight} label="Net Weight" value="20 KG" />
+            <OverviewFact Icon={Droplet} label="Color" value="Grey" />
+          </div>
+        </div>
+      </section>
+
+      {/* APPLICATIONS */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-xs font-bold text-red-600 tracking-wide mb-6">
+            BUILT FOR MODERN TILE INSTALLATION
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {applications.map((a) => (
+              <AppCard key={a.label} {...a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SPECS + WHY CHOOSE */}
+      <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-8">
+        <div>
+          <p className="text-xs font-bold text-red-600 tracking-wide mb-4">
+            TECHNICAL SPECIFICATIONS
+          </p>
           <div className="border border-gray-200 rounded-md overflow-hidden">
             {specs.map(([label, value], i) => (
               <SpecRow key={label} label={label} value={value} alt={i % 2 === 1} />
             ))}
           </div>
+          <p className="text-[11px] text-gray-400 mt-3 leading-relaxed">
+            Note: Coverage and setting time may vary depending on substrate
+            condition, tile size, application thickness, temperature, and
+            site conditions.
+          </p>
         </div>
 
-        {/* Variants */}
-        <div>
-          <h2 className="text-xl font-black text-gray-900">
-            AVAILABLE VARIANTS
-          </h2>
-          <div className="w-12 h-1 bg-yellow-400 rounded-full mt-1 mb-5" />
-          <div className="flex items-end gap-4 justify-center bg-gray-50 rounded-md p-6 h-[calc(100%-2.75rem)]">
-            <div className="relative w-20 rounded-xl bg-white border border-gray-200 p-3 text-gray-900 text-[8px] font-bold text-center shadow-md overflow-hidden">
-              <div className="h-1 w-full bg-yellow-400 absolute top-0 left-0" />
-              <div className="mt-1">KIPIPL</div>
-              <div className="mt-1 text-[9px] font-black">TILE FIX</div>
-              <div className="text-[9px] font-black text-yellow-500">PRO</div>
-              <div className="mt-1 text-[6px] text-gray-500">1 kg</div>
-            </div>
-            <div className="relative w-28 rounded-xl bg-white border border-gray-200 p-4 text-gray-900 text-[9px] font-bold text-center shadow-lg overflow-hidden">
-              <div className="h-1.5 w-full bg-yellow-400 absolute top-0 left-0" />
-              <div className="mt-1">KIPIPL</div>
-              <div className="mt-1 text-xs font-black">TILE FIX</div>
-              <div className="text-xs font-black text-yellow-500">PRO</div>
-              <div className="mt-1 text-[7px] text-gray-500">
-                PREMIUM TILE ADHESIVE
-              </div>
-              <div className="mt-2 text-[7px] text-gray-500">20 kg</div>
-            </div>
+        <div className="bg-gray-900 rounded-lg p-8">
+          <p className="text-xs font-bold text-yellow-400 tracking-wide mb-6">
+            WHY CHOOSE TILE FIX PRO?
+          </p>
+          <div className="space-y-6">
+            <WhyItem
+              Icon={Link2}
+              title="Strong Adhesion"
+              desc="Designed for a firm and reliable bond."
+            />
+            <WhyItem
+              Icon={Grid2x2}
+              title="Reliable Performance"
+              desc="Consistent performance for professional tile-laying requirements."
+            />
+            <WhyItem
+              Icon={PaintBucket}
+              title="Easy to Apply"
+              desc="Designed for practical and efficient application."
+            />
+            <WhyItem
+              Icon={Square}
+              title="Made for Modern Construction"
+              desc="A dependable adhesive solution for today's tile installation needs."
+            />
           </div>
-        </div>
-
-        {/* Trust */}
-        <div className="bg-yellow-50 rounded-md p-6 flex flex-col gap-6 justify-center">
-          <TrustItem
-            Icon={BadgeCheck}
-            title="PREMIUM QUALITY"
-            desc="Manufactured under strict quality control"
-          />
-          <TrustItem
-            Icon={ShieldCheck}
-            title="TRUSTED PERFORMANCE"
-            desc="Tested for strength and durability"
-          />
-          <TrustItem
-            Icon={Headphones}
-            title="EXPERT SUPPORT"
-            desc="Technical support for the perfect finish"
-          />
         </div>
       </section>
 
-      {/* CTA STRIP */}
-      <section className="bg-gray-900">
-        <div className="max-w-7xl mx-auto px-6 py-8 flex flex-wrap items-center justify-between gap-6">
-          <div>
-            <p className="text-white font-black text-lg leading-tight">
-              STRONGER BOND. SUPERIOR FINISH.
-            </p>
-            <p className="text-yellow-400 font-black text-lg leading-tight">
-              BUILT TO PERFECTION.
-            </p>
+      {/* PROCESS STEPS */}
+      <section className="bg-gray-50 py-14">
+        <div className="max-w-7xl mx-auto px-6 flex flex-wrap md:flex-nowrap items-stretch gap-3">
+          {steps.map((s, i) => (
+            <React.Fragment key={s.num}>
+              <ProcessStep {...s} />
+              {i < steps.length - 1 && <ProcessArrow />}
+            </React.Fragment>
+          ))}
+        </div>
+      </section>
+
+      {/* DARK CTA BANNER */}
+      <section className="relative py-16">
+        <div className="absolute inset-0">
+          <img
+            src={ctaBannerImg}
+            alt="Tile floor background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/70" />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-black text-white leading-snug">
+            A Strong Foundation
+            <br /> for Every Tile.
+          </h2>
+          <p className="text-gray-300 text-sm mt-4 max-w-xl mx-auto">
+            From residential spaces to commercial projects, Tile Fix Pro is
+            designed to help professionals achieve a secure, precise, and
+            dependable tile installation.
+          </p>
+          <button className="mt-6 inline-flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors">
+            Get a Quote <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <p className="text-xs font-bold text-red-600 tracking-wide mb-6">
+          FREQUENTLY ASKED QUESTIONS
+        </p>
+        <div className="grid md:grid-cols-[1fr_1fr_auto] gap-4 items-start">
+          <div className="space-y-3">
+            {faqsLeft.map((q) => (
+              <FaqItem key={q} q={q} />
+            ))}
           </div>
-          <div className="flex items-center gap-4">
-            <button className="bg-yellow-400 text-gray-900 font-bold text-xs px-6 py-3 rounded-sm hover:bg-yellow-300 transition-colors">
-              REQUEST A QUOTE
+          <div className="space-y-3">
+            {faqsRight.map((q) => (
+              <FaqItem key={q} q={q} />
+            ))}
+          </div>
+          <div className="bg-white border border-gray-200 rounded-md p-5 w-full md:w-52 flex flex-col items-start gap-3">
+            <Mail className="w-6 h-6 text-red-600" strokeWidth={1.75} />
+            <p className="text-xs font-bold text-gray-900">Have more questions?</p>
+            <p className="text-[11px] text-gray-500 leading-snug">
+              Visit our complete FAQ section for detailed information.
+            </p>
+            <button className="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-800 text-xs font-bold px-4 py-2.5 rounded-sm hover:bg-gray-50">
+              View All FAQs <ArrowRight className="w-3.5 h-3.5" />
             </button>
-            <div className="flex items-center gap-2 text-white text-sm font-semibold">
-              <Phone className="w-4 h-4 text-yellow-400" />
-              Or call us at +91 999 444 8888
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER CTA */}
+      <section className="relative bg-gray-900 py-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 flex flex-wrap items-center gap-8 justify-between">
+          <div className="flex items-center gap-6 flex-1 min-w-[280px]">
+            <div className="relative w-20 h-28 shrink-0 hidden sm:block">
+              <img
+                src={footerProductImg}
+                alt="Tile Fix Pro bag"
+                className="absolute left-0 top-2 w-16 h-24 object-cover rounded-sm shadow-lg -rotate-6"
+              />
+              <img
+                src={footerProductImg}
+                alt=""
+                aria-hidden="true"
+                className="absolute left-5 top-0 w-16 h-24 object-cover rounded-sm shadow-lg rotate-3"
+              />
+            </div>
+            <div>
+              <h3 className="text-xl md:text-2xl font-black text-white">
+                Ready for a Perfect Fix?
+              </h3>
+              <p className="text-sm text-gray-300 mt-1 max-w-md">
+                Choose Tile Fix Pro for strong bonding, reliable performance,
+                and confident tile installation.
+              </p>
             </div>
           </div>
-          <div className="flex gap-6">
-            <FeaturePill Icon={Link2} label="STRONG BOND" />
-            <FeaturePill Icon={ShieldCheck} label="WATER RESISTANT" />
-            <FeaturePill Icon={Dumbbell} label="HIGH STRENGTH" />
-            <FeaturePill Icon={Clock} label="LONG LASTING" />
+          <div className="flex gap-3 shrink-0">
+            <button className="flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors">
+              Get a Quote <ArrowRight className="w-4 h-4" />
+            </button>
+            <Link
+              to="/contact-us"
+              className="flex items-center gap-2 bg-transparent border border-white/40 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-white/10 transition-colors"
+            >
+              Contact KIPIPL <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-gray-900">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-wrap justify-around gap-6">
-          <FooterMark
-            Icon={BadgeCheck}
-            title="QUALITY PRODUCTS"
-            desc="You Can Trust"
+      <footer className="bg-gray-900 pt-14 pb-6">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-10">
+          <div>
+            <p className="text-xs text-gray-400 leading-relaxed max-w-xs">
+              Building strong foundations since 1990. KIPIPL is committed to
+              delivering premium construction materials and innovative
+              solutions for a better future.
+            </p>
+            <div className="flex gap-3 mt-5">
+              <span className="text-xs text-gray-400 hover:text-yellow-400 cursor-pointer">Facebook</span>
+              <span className="text-xs text-gray-400 hover:text-yellow-400 cursor-pointer">Instagram</span>
+              <span className="text-xs text-gray-400 hover:text-yellow-400 cursor-pointer">LinkedIn</span>
+              <span className="text-xs text-gray-400 hover:text-yellow-400 cursor-pointer">Youtube</span>
+            </div>
+          </div>
+
+          <FooterCol
+            title="QUICK LINKS"
+            links={["Home", "About Us", "Ready Mix", "K Blocks", "Blue Metals", "Contact Us"]}
           />
-          <FooterMark
-            Icon={Wrench}
-            title="ADVANCED TECHNOLOGY"
-            desc="For Better Tomorrow"
+          <FooterCol
+            title="PRODUCTS"
+            links={["Ready Mix Concrete", "Solid Blocks", "M Sand", "P Sand", "River Sand", "Blue Metal Aggregates"]}
           />
-          <FooterMark
-            Icon={Leaf}
-            title="SUSTAINABLE SOLUTIONS"
-            desc="For Future Generations"
+          <FooterCol
+            title="KNOWLEDGE"
+            links={["Blog", "Service Locations", "FAQs", "Tile Fix Pro"]}
           />
-          <FooterMark
-            Icon={ShieldCheck}
-            title="CUSTOMER SATISFACTION"
-            desc="Is Our Priority"
-          />
+          <div>
+            <p className="text-white font-bold text-xs tracking-wider mb-4">
+              CONTACT US
+            </p>
+            <div className="space-y-3 text-xs text-gray-400">
+              <div className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>
+                  Murugathoosu Village, Chinnimatoor Taluk, Erode – 638051,
+                  Tamil Nadu, India
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 shrink-0" />
+                <span>+91 999 444 8888</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 shrink-0" />
+                <span>info@kipipl.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-gray-800 flex flex-wrap justify-between items-center gap-3">
+          <p className="text-[11px] text-gray-500">
+            © 2026 Kannan Infra Projects India Private Limited (KIPIPL). All
+            rights reserved.
+          </p>
+
+          <div className="flex gap-4 text-[11px] text-gray-500">
+            <span className="hover:text-yellow-400 cursor-pointer">
+              Privacy Policy
+            </span>
+
+            <span className="hover:text-yellow-400 cursor-pointer">
+              Terms & Conditions
+            </span>
+          </div>
         </div>
       </footer>
     </div>
