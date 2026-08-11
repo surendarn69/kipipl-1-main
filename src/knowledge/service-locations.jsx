@@ -14,9 +14,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 // --- IMAGES -----------------------------------------------------------
 // Replace these with your real assets. Reusing existing product photos
 // from the project where possible; add the rest to src/Assests/.
-import readyMixImg from '../Assests/readymix.png';
-import bluemetalImg from '../Assests/bluemetal.jpeg';
-import kblocksImg from '../Assests/K-Blocks.png';
+import readyMixImg from '../Assests/Readymix2.jpg';
+import bluemetalImg from '../Assests/Aggregate.jpg';
+import kblocksImg from '../Assests/solid_blocks.jpg';
+import msandImg from '../Assests/msand.jpg';
+import psandImg from '../Assests/psand.jpg';
 import ctaImg from '../Assests/banner.png'; // swap for a dedicated site-truck photo if you have one
 // import tnMapImg from '../Assests/tn-map.png'; // <- add a Tamil Nadu map graphic here
 
@@ -25,11 +27,6 @@ import ctaImg from '../Assests/banner.png'; // swap for a dedicated site-truck p
 // import psandImg from '../Assests/psand.png';
 // Using simple placeholder swatches for now so they don't clash visually
 // with the other product photos.
-const msandImg =
-  "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='140'%3E%3Crect width='200' height='140' fill='%23D9A65C'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' fill='%23fff' text-anchor='middle' dominant-baseline='middle'%3EM Sand%3C/text%3E%3C/svg%3E";
-const psandImg =
-  "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='140'%3E%3Crect width='200' height='140' fill='%23C9915B'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' fill='%23fff' text-anchor='middle' dominant-baseline='middle'%3EP Sand%3C/text%3E%3C/svg%3E";
-
 const products = [
   { label: 'Ready Mix Concrete', img: readyMixImg },
   { label: 'Solid Blocks', img: kblocksImg },
@@ -229,30 +226,24 @@ const ServiceLocations = () => {
             >
               {/* Map placeholder - swap Box below for <img src={tnMapImg} /> */}
               <Box
-                sx={{
-                  flex: 1.1,
-                  minHeight: 280,
-                  borderRadius: '14px',
-                  backgroundColor: '#fff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                <LocationOnIcon sx={{ fontSize: 60, color: '#F5A000', opacity: 0.25 }} />
-                <Typography
-                  sx={{
-                    position: 'absolute',
-                    bottom: 10,
-                    fontSize: '11px',
-                    color: '#9a9a9a',
-                  }}
-                >
-                  Add your Tamil Nadu service-area map image here
-                </Typography>
-              </Box>
+  sx={{
+    flex: 1.1,
+    minHeight: 280,
+    borderRadius: '14px',
+    overflow: 'hidden',
+  }}
+>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3914.0822231443058!2d77.63352077497575!3d11.181547888992942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba973f15612601b%3A0xb9b7f23dca1abd60!2sKannan%20Blue%20Metals!5e0!3m2!1sen!2sin!4v1786426461274!5m2!1sen!2sin"
+    width="100%"
+    height="100%"
+    style={{ border: 0, minHeight: '280px' }}
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="strict-origin-when-cross-origin"
+    title="Kannan Blue Metals Location"
+  />
+</Box>
 
               {/* Product grid */}
               <Box

@@ -1,247 +1,315 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  Box,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Chip,
-} from "@mui/material";
+  ChevronRight,
+  ChevronDown,
+  Plus,
+  ShieldCheck,
+  Truck,
+  Headphones,
+  Phone,
+  MapPin,
+  Award,
+  ShieldCheck as ShieldIcon,
+} from "lucide-react";
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
-import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
+/* ------------------------------------------------------------------ */
+/*  IMAGE — free-license hosted photo, swap for your own plant photo   */
+/*  whenever you're ready                                             */
+/* ------------------------------------------------------------------ */
+const plantImage =
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80";
 
-// FAQ data grouped by category — edit / add as many Q&A as you need
-const faqGroups = [
-  {
-    category: 'General',
-    icon: <ApartmentOutlinedIcon />,
-    questions: [
-      {
-        q: 'Since when has KIPIPL been in operation?',
-        a: 'KIPIPL has been operating since 1990, with over three decades of experience in the sand and aggregates industry, backed by a 100-acre mining campus in Murugantholuvu, Chennimalai.',
-      },
-      {
-        q: 'What products does KIPIPL supply?',
-        a: 'We supply Ready Mix Concrete, Solid (K) Blocks, M Sand, P Sand, and premium Blue Metal aggregates for residential, commercial, industrial, and infrastructure projects.',
-      },
-      {
-        q: 'Which areas does KIPIPL currently serve?',
-        a: 'We currently serve Erode, Tiruppur, and Namakkal districts, covering major towns and surrounding areas within each district.',
-      },
-    ],
-  },
-  {
-    category: 'Products & Quality',
-    icon: <Inventory2OutlinedIcon />,
-    questions: [
-      {
-        q: 'Do your products meet IS quality standards?',
-        a: 'Yes. Our 150 TPH 4-stage sand manufacturing plant, along with advanced quality controls, ensures all products meet IS standards while minimizing environmental impact.',
-      },
-      {
-        q: "What's the difference between M Sand and P Sand?",
-        a: 'M Sand (Manufactured Sand) is crushed and graded for construction use, offering consistent quality and availability. P Sand (Plastering Sand) is finer and specifically processed for plastering applications requiring a smoother finish.',
-      },
-      {
-        q: 'What sizes of blue metal aggregates are available?',
-        a: 'We supply blue metal in multiple sizes — 6 mm, 12 mm, 20 mm, 40 mm, and 53 mm — along with rough stone and dust, to suit different construction requirements.',
-      },
-    ],
-  },
-  {
-    category: 'Delivery & Logistics',
-    icon: <LocalShippingOutlinedIcon />,
-    questions: [
-      {
-        q: 'How fast can I get my order delivered?',
-        a: 'As the nearest blue metal quarry to Erode, we guarantee swift delivery, typically within two hours, backed by a reliable logistics network across our service districts.',
-      },
-      {
-        q: 'Do you deliver Ready Mix Concrete directly to the site?',
-        a: 'Yes. Our Twin Shaft RMC Plant, along with boom pump support and experienced site coordinators, ensures precise on-site delivery and pouring for projects of every scale.',
-      },
-      {
-        q: 'Is there a minimum order quantity?',
-        a: 'Minimum order quantities vary by product and site distance. Please contact our team via WhatsApp or the enquiry form for exact quantities and pricing for your project.',
-      },
-    ],
-  },
-  {
-    category: 'Ordering & Support',
-    icon: <VerifiedOutlinedIcon />,
-    questions: [
-      {
-        q: 'How do I place an order or get a quote?',
-        a: 'You can request a quote through our Contact Us page, call us directly, or chat with us on WhatsApp for a quick response from our team.',
-      },
-      {
-        q: 'Can I visit the quarry or manufacturing plant?',
-        a: 'Yes, site visits can be arranged on request. Please reach out through our contact form or phone to schedule a visit to our Chennimalai facility.',
-      },
-    ],
-  },
-];
+/* ------------------------------------------------------------------ */
+/*  Small reusable bits                                               */
+/* ------------------------------------------------------------------ */
 
-const FAQs = () => {
-  const [expanded, setExpanded] = useState('panel-0-0');
+const TrustBadge = ({ Icon, title, desc }) => (
+  <div className="flex items-center gap-2.5">
+    <div className="w-9 h-9 rounded-full border border-yellow-400 flex items-center justify-center shrink-0">
+      <Icon className="w-4 h-4 text-yellow-500" strokeWidth={1.75} />
+    </div>
+    <div>
+      <p className="text-sm font-bold text-gray-900 leading-tight">{title}</p>
+      <p className="text-xs text-gray-500 leading-tight">{desc}</p>
+    </div>
+  </div>
+);
 
-  const handleChange = (panelId) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panelId : false);
-  };
+const FaqAccordionItem = ({ q, a, isOpen, onToggle }) => (
+  <div className="bg-white border border-gray-200 rounded-md overflow-hidden">
+    <button
+      onClick={onToggle}
+      className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+    >
+      <div className="flex items-center gap-3">
+        <span className="w-6 h-6 rounded-full bg-yellow-400 text-white flex items-center justify-center shrink-0">
+          <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+        </span>
+        <span className="text-sm font-bold text-gray-900">{q}</span>
+      </div>
+      <ChevronDown
+        className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${
+          isOpen ? "rotate-180" : ""
+        }`}
+      />
+    </button>
+    {isOpen && (
+      <div className="px-5 pb-4 pl-14">
+        <p className="text-xs text-gray-500 leading-relaxed">{a}</p>
+      </div>
+    )}
+  </div>
+);
+
+const StripItem = ({ Icon, title, desc }) => (
+  <div className="flex flex-col items-center text-center gap-2 px-4">
+    <div className="w-11 h-11 rounded-full border border-yellow-400 flex items-center justify-center">
+      <Icon className="w-5 h-5 text-yellow-500" strokeWidth={1.75} />
+    </div>
+    <p className="text-xs font-bold text-gray-900">{title}</p>
+    <p className="text-[11px] text-gray-500 leading-snug max-w-[9rem]">
+      {desc}
+    </p>
+  </div>
+);
+
+/* ------------------------------------------------------------------ */
+/*  Main component (logo only — no full navbar)                       */
+/* ------------------------------------------------------------------ */
+
+export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const faqs = [
+    {
+      q: "Where can I buy M Sand in Chennimalai?",
+      a: "KIPIPL supplies quality M Sand directly to Chennimalai and surrounding areas. Contact us for pricing and delivery.",
+    },
+    {
+      q: "Who supplies P Sand in Chennimalai?",
+      a: "We are a trusted supplier of P Sand in Chennimalai, delivered on time with consistent quality.",
+    },
+    {
+      q: "Where can I get Jally / Blue Metal in Chennimalai?",
+      a: "KIPIPL provides Jally and Blue Metal aggregates in various sizes for construction needs across Chennimalai.",
+    },
+    {
+      q: "What sizes of Blue Metal / Jally are available?",
+      a: "We stock multiple sizes of Blue Metal and Jally to suit different construction and concreting requirements.",
+    },
+    {
+      q: "Who supplies Ready Mix Concrete in Chennimalai?",
+      a: "KIPIPL is a leading Ready Mix Concrete supplier in Chennimalai, offering consistent quality and timely delivery.",
+    },
+    {
+      q: "Do you supply Solid Blocks in Chennimalai?",
+      a: "Yes, we manufacture and supply premium solid blocks for residential and commercial construction.",
+    },
+    {
+      q: "Do you deliver construction materials to nearby areas?",
+      a: "We deliver M Sand, P Sand, Jally, Blue Metal, RMC and Solid Blocks to Chennimalai and nearby areas within our service radius.",
+    },
+    {
+      q: "What areas are covered within 20 KM radius of Chennimalai?",
+      a: "We serve Chennimalai and all surrounding towns and villages within a 20 KM radius with our own delivery fleet.",
+    },
+    {
+      q: "How can I place an order?",
+      a: "You can place an order by calling us directly or filling out the contact form, and our team will assist you.",
+    },
+    {
+      q: "What is your contact number?",
+      a: "You can reach us at +91 82206 24590 or +91 72008 30590 for any queries or orders.",
+    },
+  ];
 
   return (
-    <Box sx={{ backgroundColor: '#F8F9FA', py: { xs: 4, md: 6 } }}>
-      <Box sx={{ maxWidth: '1000px', mx: 'auto', px: { xs: 2, md: 4 } }}>
-        {/* ================= HEADER ================= */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 7 } }}>
-          <Typography
-            sx={{
-              color: '#F5A000',
-              fontWeight: 700,
-              fontSize: '13px',
-              letterSpacing: '0.5px',
-              mb: 1.5,
-            }}
+    <div className="w-full min-h-screen bg-white font-sans text-gray-900">
+      {/* BREADCRUMB + HERO */}
+      <section className="bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 pt-4 pb-10">
+          <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-6">
+            <Link to="/" className="hover:text-yellow-500">Home</Link>
+            <ChevronRight className="w-3 h-3" />
+            <Link to="/knowledge" className="hover:text-yellow-500">Knowledge</Link>
+            <ChevronRight className="w-3 h-3" />
+            <span className="font-bold text-gray-900">FAQ</span>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <h1 className="text-5xl md:text-6xl font-black text-gray-900 leading-none">
+                FAQ
+              </h1>
+              <p className="text-xl md:text-2xl font-bold text-gray-900 mt-4">
+                Construction Materials in Chennimalai
+              </p>
+              <p className="text-sm text-gray-600 mt-3 max-w-md leading-relaxed">
+                Find answers about M Sand, P Sand, Jally, Blue Metal, Ready
+                Mix Concrete &amp; Solid Blocks. We are here to help!
+              </p>
+
+              <div className="flex flex-wrap gap-6 mt-8">
+                <TrustBadge
+                  Icon={ShieldCheck}
+                  title="Quality Assured"
+                  desc="Premium Materials"
+                />
+                <TrustBadge
+                  Icon={Truck}
+                  title="Timely Delivery"
+                  desc="On-time, Every time"
+                />
+                <TrustBadge
+                  Icon={Headphones}
+                  title="Customer Support"
+                  desc="We're here to help"
+                />
+              </div>
+            </div>
+
+            <div className="rounded-lg overflow-hidden">
+              <img
+                src={plantImage}
+                alt="KIPIPL concrete batching plant and trucks"
+                className="w-full h-64 md:h-80 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ LIST + CONTACT CARD */}
+      <section className="max-w-7xl mx-auto px-6 py-14 grid lg:grid-cols-[1fr_320px] gap-8 items-start">
+        <div className="space-y-3">
+          {faqs.map((f, i) => (
+            <FaqAccordionItem
+              key={f.q}
+              q={f.q}
+              a={f.a}
+              isOpen={openIndex === i}
+              onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+            />
+          ))}
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-lg p-6 text-center sticky top-6">
+          <div className="w-14 h-14 rounded-full bg-yellow-400 flex items-center justify-center mx-auto">
+            <Phone className="w-6 h-6 text-white" strokeWidth={1.75} />
+          </div>
+          <h3 className="text-lg font-black text-gray-900 mt-4 leading-snug">
+            Need Construction Materials?
+          </h3>
+          <div className="w-10 h-1 bg-yellow-400 rounded-full mx-auto my-3" />
+          <p className="text-xs text-gray-500 leading-relaxed">
+            We supply M Sand, P Sand, Jally, Blue Metal, Ready Mix Concrete
+            &amp; Solid Blocks in Chennimalai and surrounding areas.
+          </p>
+
+          <div className="mt-5 space-y-3 text-left">
+            <a
+              href="tel:+918220624590"
+              className="flex items-center gap-3 text-sm font-bold text-gray-900 hover:text-yellow-500"
+            >
+              <Phone className="w-4 h-4 text-yellow-500 shrink-0" />
+              +91 82206 24590
+            </a>
+            <a
+              href="tel:+917200830590"
+              className="flex items-center gap-3 text-sm font-bold text-gray-900 hover:text-yellow-500"
+            >
+              <Phone className="w-4 h-4 text-yellow-500 shrink-0" />
+              +91 72008 30590
+            </a>
+          </div>
+
+          <Link
+            to="/contact-us"
+            className="mt-6 w-full flex items-center justify-center gap-2 bg-yellow-400 text-white text-xs font-bold px-5 py-3 rounded-sm hover:bg-yellow-500 transition-colors"
           >
-            KIPIPL KNOWLEDGE – FAQs
-          </Typography>
+            Contact Us Now <ChevronRight className="w-4 h-4" />
+          </Link>
+          <p className="text-[11px] text-gray-500 mt-3 flex items-center justify-center gap-1.5">
+            <Headphones className="w-3.5 h-3.5" /> We're here to help you!
+          </p>
+        </div>
+      </section>
 
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 700,
-              fontSize: { xs: '30px', md: '40px' },
-              lineHeight: 1.2,
-              color: '#111111',
-              mb: 2,
-            }}
-          >
-            Frequently Asked Questions
-          </Typography>
-
-          <Typography
-            sx={{
-              color: '#5A5A5A',
-              fontSize: { xs: '14px', md: '15px' },
-              lineHeight: '26px',
-              maxWidth: '640px',
-              mx: 'auto',
-            }}
-          >
-            Answers to common questions about our products, quality standards,
-            delivery, and how to get started with KIPIPL.
-          </Typography>
-        </Box>
-
-        {/* ================= FAQ GROUPS ================= */}
-        {faqGroups.map((group, gi) => (
-          <Box key={gi} sx={{ mb: { xs: 4, md: 5 } }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2, mb: 2 }}>
-              <Box
-                sx={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: '10px',
-                  backgroundColor: '#FFF4DE',
-                  color: '#F5A000',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {group.icon}
-              </Box>
-              <Typography sx={{ fontWeight: 700, fontSize: '17px', color: '#111' }}>
-                {group.category}
-              </Typography>
-            </Box>
-
-            {group.questions.map((item, qi) => {
-              const panelId = `panel-${gi}-${qi}`;
-              return (
-                <Accordion
-                  key={panelId}
-                  expanded={expanded === panelId}
-                  onChange={handleChange(panelId)}
-                  disableGutters
-                  elevation={0}
-                  sx={{
-                    backgroundColor: '#fff',
-                    borderRadius: '12px !important',
-                    mb: 1.5,
-                    boxShadow: '0px 2px 10px rgba(0,0,0,0.05)',
-                    '&:before': { display: 'none' },
-                    overflow: 'hidden',
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={
-                      <ExpandMoreIcon
-                        sx={{ color: expanded === panelId ? '#F5A000' : '#9A9A9A' }}
-                      />
-                    }
-                    sx={{
-                      px: 2.5,
-                      py: 0.5,
-                      '& .MuiAccordionSummary-content': { my: 1.4 },
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: 600,
-                        fontSize: '14.5px',
-                        color: expanded === panelId ? '#F5A000' : '#1A1A1A',
-                      }}
-                    >
-                      {item.q}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ px: 2.5, pt: 0, pb: 2.5 }}>
-                    <Typography sx={{ fontSize: '13.5px', color: '#5A5A5A', lineHeight: 1.6 }}>
-                      {item.a}
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-              );
-            })}
-          </Box>
-        ))}
-
-        {/* ================= STILL HAVE QUESTIONS ================= */}
-        <Box
-          sx={{
-            backgroundColor: '#fff',
-            borderRadius: '16px',
-            p: { xs: 3, md: 4 },
-            textAlign: 'center',
-            boxShadow: '0px 3px 14px rgba(0,0,0,0.05)',
-            mt: { xs: 4, md: 5 },
-          }}
-        >
-          <Chip
-            icon={<HelpOutlineOutlinedIcon sx={{ color: '#F5A000 !important' }} />}
-            label="Still have questions?"
-            sx={{
-              backgroundColor: '#FFF4DE',
-              color: '#F5A000',
-              fontWeight: 700,
-              mb: 1.5,
-              px: 1,
-            }}
+      {/* TRUST STRIP */}
+      <section className="bg-gray-50 py-10">
+        <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-around gap-8">
+          <StripItem
+            Icon={MapPin}
+            title="Local Presence"
+            desc="Serving Chennimalai & surrounding areas within 20 KM radius"
           />
-          <Typography sx={{ fontSize: '14px', color: '#5A5A5A' }}>
-            Reach out to our team on WhatsApp or through the Contact Us page and
-            we'll be happy to help.
-          </Typography>
-        </Box>
-      </Box>
-    </Box>
-  );
-};
+          <StripItem
+            Icon={Award}
+            title="Quality Materials"
+            desc="M Sand, P Sand, Blue Metal, Jally, RMC & Solid Blocks of the highest quality"
+          />
+          <StripItem
+            Icon={Truck}
+            title="Reliable Delivery"
+            desc="Timely delivery with our own fleet for your convenience"
+          />
+          <StripItem
+            Icon={ShieldIcon}
+            title="Trust & Transparency"
+            desc="Built on trust, ensuring transparency in quality and service"
+          />
+          <StripItem
+            Icon={Headphones}
+            title="Customer Support"
+            desc="Dedicated support for all your queries and requirements"
+          />
+        </div>
+      </section>
 
-export default FAQs;
+      {/* BOTTOM CTA */}
+      <section className="bg-gray-900 py-12">
+        <div className="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-between gap-8">
+          <div className="max-w-lg">
+            <p className="text-xs font-bold text-yellow-400 tracking-widest mb-2">
+              LET'S BUILD TOGETHER
+            </p>
+            <h2 className="text-2xl md:text-3xl font-black text-white leading-snug">
+              Quality Materials.
+              <br /> Stronger Foundations.
+            </h2>
+            <p className="text-sm text-gray-400 mt-3">
+              KIPIPL is your trusted partner for all construction material
+              needs in Chennimalai and nearby areas.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-3">
+              <a
+                href="tel:+918220624590"
+                className="flex items-center gap-2 bg-white text-gray-900 text-xs font-bold px-5 py-3 rounded-sm hover:bg-gray-100 transition-colors"
+              >
+                <Phone className="w-4 h-4 text-yellow-500" />
+                +91 82206 24590
+              </a>
+              <a
+                href="tel:+917200830590"
+                className="flex items-center gap-2 bg-white text-gray-900 text-xs font-bold px-5 py-3 rounded-sm hover:bg-gray-100 transition-colors"
+              >
+                <Phone className="w-4 h-4 text-yellow-500" />
+                +91 72008 30590
+              </a>
+            </div>
+            <Link
+              to="/contact-us"
+              className="flex items-center justify-center gap-2 border border-yellow-400 text-yellow-400 text-xs font-bold px-5 py-3 rounded-sm hover:bg-yellow-400 hover:text-gray-900 transition-colors"
+            >
+              Contact Us <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
