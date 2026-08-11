@@ -25,7 +25,7 @@ const Home = () => {
       <Grid item xs={12}>
         <img
           src={banner}
-          alt="banner"
+          alt="KIPIPL M Sand, P Sand, Blue Metal and Ready Mix Concrete supplier in Chennimalai"
           style={{
             width: "100%",
             height: "auto",
@@ -33,7 +33,43 @@ const Home = () => {
           }}
         />
       </Grid>
+       <Grid item xs={12}>
+  <section
+    style={{
+      padding: "40px 8%",
+      textAlign: "center",
+      backgroundColor: "#fff",
+    }}
+  >
+    <h1
+      style={{
+        fontSize: "32px",
+        fontWeight: 700,
+        color: "#111",
+        marginBottom: "15px",
+      }}
+    >
+      M Sand, P Sand, Blue Metal & Ready Mix Concrete in Chennimalai
+    </h1>
 
+    <p
+      style={{
+        fontSize: "16px",
+        lineHeight: 1.8,
+        color: "#555",
+        maxWidth: "900px",
+        margin: "0 auto",
+      }}
+    >
+      Kannan Infra Projects India Private Limited (KIPIPL) supplies quality
+      M Sand, P Sand, Blue Metal aggregates, K Blocks and Ready Mix Concrete
+      for construction projects in Chennimalai and surrounding areas.
+      Our products are suitable for residential, commercial, industrial and
+      infrastructure projects, with reliable supply and delivery across
+      Erode, Tiruppur and Namakkal districts.
+    </p>
+  </section>
+</Grid>
       {/* About Section */}
       <Grid item xs={12} id="about">
         <About />
