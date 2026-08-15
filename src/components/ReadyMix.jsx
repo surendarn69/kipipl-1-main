@@ -207,15 +207,16 @@ const ReadyMix = () => {
                 </Box>
               </Box>
 
-              {/* RIGHT IMAGE */}
+             {/* RIGHT IMAGE */}
 <Box
   sx={{
-    flex: 1,
+    flex: '1 1 45%',
     width: '100%',
     minWidth: 0,
+    maxWidth: '100%',
     display: 'flex',
-    alignItems: 'stretch',
-    justifyContent: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
   }}
 >
   <Box
@@ -224,11 +225,13 @@ const ReadyMix = () => {
     alt="Kannan Ready Mix Concrete"
     sx={{
       width: '100%',
-      height: { xs: '240px', sm: '320px', md: '420px' },
-
-      objectFit: 'cover',
-
+      height: 'auto',
+      maxWidth: '100%',
       display: 'block',
+
+      // IMPORTANT: image crop ஆகாது
+      objectFit: 'contain',
+
       borderRadius: '16px',
 
       boxShadow: '0px 8px 24px rgba(0,0,0,0.08)',

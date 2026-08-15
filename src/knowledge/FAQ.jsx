@@ -249,12 +249,14 @@ export default function FAQ() {
             </a>
           </div>
 
-          <Link
-            to="/contact-us"
-            className="mt-6 w-full flex items-center justify-center gap-2 bg-yellow-400 text-white text-xs font-bold px-5 py-3 rounded-sm hover:bg-yellow-500 transition-colors"
-          >
-            Contact Us Now <ChevronRight className="w-4 h-4" />
-          </Link>
+          <a
+  href="https://wa.me/918220624590"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="mt-6 w-full flex items-center justify-center gap-2 bg-yellow-400 text-white text-xs font-bold px-5 py-3 rounded-sm hover:bg-yellow-500 transition-colors"
+>
+  Contact Us Now <ChevronRight className="w-4 h-4" />
+</a>
           <p className="text-[11px] text-gray-500 mt-3 flex items-center justify-center gap-1.5">
             <Headphones className="w-3.5 h-3.5" /> We're here to help you!
           </p>
@@ -326,12 +328,14 @@ export default function FAQ() {
                 +91 72008 30590
               </a>
             </div>
-            <Link
-              to="/contact-us"
-              className="flex items-center justify-center gap-2 border border-yellow-400 text-yellow-400 text-xs font-bold px-5 py-3 rounded-sm hover:bg-yellow-400 hover:text-gray-900 transition-colors"
-            >
-              Contact Us <ChevronRight className="w-4 h-4" />
-            </Link>
+            <a
+  href="https://wa.me/918220624590"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center justify-center gap-2 border border-yellow-400 text-yellow-400 text-xs font-bold px-5 py-3 rounded-sm hover:bg-yellow-400 hover:text-gray-900 transition-colors"
+>
+  Contact Us <ChevronRight className="w-4 h-4" />
+</a>
           </div>
         </div>
       </section>

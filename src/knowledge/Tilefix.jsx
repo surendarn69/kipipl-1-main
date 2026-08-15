@@ -137,12 +137,37 @@ const ProcessArrow = () => (
   </div>
 );
 
-const FaqItem = ({ q }) => (
-  <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-3.5">
-    <span className="text-sm font-semibold text-gray-800">{q}</span>
-    <Plus className="w-4 h-4 text-gray-400 shrink-0" />
-  </div>
-);
+const FaqItem = ({ q, a }) => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-md overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between gap-4 px-4 py-3.5 text-left"
+      >
+        <span className="text-sm font-semibold text-gray-800">
+          {q}
+        </span>
+
+        <Plus
+          className={`w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200 ${
+            open ? "rotate-45" : ""
+          }`}
+        />
+      </button>
+
+      {open && (
+        <div className="px-4 pb-4">
+          <p className="text-xs text-gray-500 leading-relaxed">
+            {a}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const FooterCol = ({ title, links }) => (
   <div>
@@ -210,15 +235,34 @@ export default function TileFixPro() {
   ];
 
   const faqsLeft = [
-    "What is Tile Fix Pro?",
-    "Which tiles can be installed using Tile Fix Pro?",
-    "What is the coverage of one 20 KG bag?",
-  ];
-  const faqsRight = [
-    "What is the open time?",
-    "How long does Tile Fix Pro take to set?",
-    "What color is Tile Fix Pro?",
-  ];
+  {
+    q: "What is Tile Fix Pro?",
+    a: "Tile Fix Pro is a high-performance cement-based tile adhesive designed for strong bonding, reliable holding strength, and easy application. It is suitable for modern tile installation requirements and is designed to provide a durable and dependable bond between the tile and the prepared surface.",
+  },
+  {
+    q: "Which tiles can be installed using Tile Fix Pro?",
+    a: "Tile Fix Pro is suitable for ceramic tiles, vitrified tiles, large-format tiles, and floor tile applications. The adhesive is designed to provide reliable bonding performance for different types of modern tile installations when applied according to the recommended installation procedure.",
+  },
+  {
+    q: "What is the coverage of one 20 KG bag?",
+    a: "One 20 KG bag of Tile Fix Pro provides approximately 50–60 sq. ft. of coverage. Actual coverage may vary depending on the tile size, substrate condition, surface evenness, adhesive thickness, application method, and site conditions.",
+  },
+];
+
+const faqsRight = [
+  {
+    q: "What is the open time?",
+    a: "Tile Fix Pro has an approximate open time of 20 minutes under suitable application conditions. This means the adhesive should be applied and the tile positioned within the recommended working period. Actual open time can vary depending on temperature, humidity, substrate condition, and site conditions.",
+  },
+  {
+    q: "How long does Tile Fix Pro take to set?",
+    a: "Tile Fix Pro has an approximate setting time of 24 hours under normal conditions. The actual setting and curing time may vary depending on temperature, humidity, substrate condition, tile type, adhesive thickness, and other site conditions.",
+  },
+  {
+    q: "What color is Tile Fix Pro?",
+    a: "Tile Fix Pro is available in Grey color. Its cement-based formulation is designed for reliable bonding performance while providing a practical solution for ceramic, vitrified, large-format, and floor tile installation applications.",
+  },
+];
 
   return (
     <div className="w-full min-h-screen bg-white font-sans text-gray-900">
@@ -472,28 +516,31 @@ export default function TileFixPro() {
         <p className="text-xs font-bold text-red-600 tracking-wide mb-6">
           FREQUENTLY ASKED QUESTIONS
         </p>
-        <div className="grid md:grid-cols-[1fr_1fr_auto] gap-4 items-start">
-          <div className="space-y-3">
-            {faqsLeft.map((q) => (
-              <FaqItem key={q} q={q} />
-            ))}
-          </div>
-          <div className="space-y-3">
-            {faqsRight.map((q) => (
-              <FaqItem key={q} q={q} />
-            ))}
-          </div>
-          <div className="bg-white border border-gray-200 rounded-md p-5 w-full md:w-52 flex flex-col items-start gap-3">
-            <Mail className="w-6 h-6 text-red-600" strokeWidth={1.75} />
-            <p className="text-xs font-bold text-gray-900">Have more questions?</p>
-            <p className="text-[11px] text-gray-500 leading-snug">
-              Visit our complete FAQ section for detailed information.
-            </p>
-            <button className="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-800 text-xs font-bold px-4 py-2.5 rounded-sm hover:bg-gray-50">
-              View All FAQs <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
+        <div className="grid md:grid-cols-2 gap-4 items-start">
+  
+  {/* LEFT FAQ */}
+  <div className="space-y-3">
+    {faqsLeft.map((faq) => (
+      <FaqItem
+        key={faq.q}
+        q={faq.q}
+        a={faq.a}
+      />
+    ))}
+  </div>
+
+  {/* RIGHT FAQ */}
+  <div className="space-y-3">
+    {faqsRight.map((faq) => (
+      <FaqItem
+        key={faq.q}
+        q={faq.q}
+        a={faq.a}
+      />
+    ))}
+  </div>
+
+</div>
       </section>
 
       {/* FOOTER CTA */}
@@ -527,12 +574,7 @@ export default function TileFixPro() {
             <button className="flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors">
               Get a Quote <ArrowRight className="w-4 h-4" />
             </button>
-            <Link
-              to="/contact-us"
-              className="flex items-center gap-2 bg-transparent border border-white/40 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-white/10 transition-colors"
-            >
-              Contact KIPIPL <ArrowRight className="w-4 h-4" />
-            </Link>
+            
           </div>
         </div>
       </section>
@@ -560,7 +602,7 @@ export default function TileFixPro() {
           />
           <FooterCol
             title="PRODUCTS"
-            links={["Ready Mix Concrete", "Solid Blocks", "M Sand", "P Sand", "River Sand", "Blue Metal Aggregates"]}
+            links={["Ready Mix Concrete", "Solid Blocks", "M Sand", "P Sand",  "Blue Metal Aggregates"]}
           />
           <FooterCol
             title="KNOWLEDGE"

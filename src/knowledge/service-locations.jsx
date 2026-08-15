@@ -1,6 +1,18 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Grid, Typography, Button, Divider, Card } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  Divider,
+  Card,
+  Dialog,
+  DialogContent,
+  IconButton,
+  TextField,
+  MenuItem,
+} from '@mui/material';
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ApartmentIcon from '@mui/icons-material/Apartment';
@@ -11,6 +23,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FactoryIcon from '@mui/icons-material/Factory';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CloseIcon from '@mui/icons-material/Close';
 
 // --- IMAGES -----------------------------------------------------------
 // Replace these with your real assets. Reusing existing product photos
@@ -92,10 +105,70 @@ const whyChoose = [
     desc: 'Consistent quality, tested materials, and strict quality control at every stage.',
   },
 ];
+const branchProducts = {
+  KBM: [
+    'M-Sand',
+    'P-Sand',
+    '6 mm',
+    '12 mm',
+    '20 mm',
+    '40 mm',
+    '53 mm',
+    'Rough Stone',
+    'Dust',
+  ],
 
+  RMC: [
+    'M10',
+    'M15',
+    'M20',
+    'M25',
+    'M30',
+    'M35',
+    'M40',
+  ],
+};
 const ServiceLocations = () => {
   const coverageRef = useRef(null);
   const navigate = useNavigate();
+
+  const [quoteOpen, setQuoteOpen] = React.useState(false);
+
+  const [quoteForm, setQuoteForm] = React.useState({
+    name: '',
+    phone: '',
+    branch: '',
+    product: '',
+    requirement: '',
+  });
+
+  const handleQuoteChange = (e) => {
+  const { name, value } = e.target;
+
+  setQuoteForm((prev) => ({
+    ...prev,
+    [name]: value,
+    ...(name === 'branch' ? { product: '' } : {}),
+  }));
+};
+
+  const handleQuoteSubmit = () => {
+    const message = `
+Hello KIPIPL,
+
+I would like to request a quotation.
+
+Name: ${quoteForm.name}
+Phone: ${quoteForm.phone}
+Branch: ${quoteForm.branch}
+Product / Service: ${quoteForm.product}
+Requirement: ${quoteForm.requirement || 'Not specified'}
+    `;
+
+    const whatsappUrl = `https://wa.me/6379702569?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, '_blank');
+  };
 
   const scrollToCoverage = () => {
     coverageRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -175,6 +248,7 @@ const ServiceLocations = () => {
               <Button
                 variant="outlined"
                 startIcon={<DescriptionOutlinedIcon />}
+                onClick={() => setQuoteOpen(true)}
                 sx={{
                   borderColor: '#F5A000',
                   color: '#111111',
@@ -476,6 +550,324 @@ const ServiceLocations = () => {
 </Button>
           </Box>
         </Card>
+        <Dialog
+  open={quoteOpen}
+  onClose={() => setQuoteOpen(false)}
+  fullWidth
+  maxWidth="sm"
+  PaperProps={{
+    sx: {
+      borderRadius: '16px',
+      overflow: 'hidden',
+      backgroundColor: '#fff',
+      boxShadow: '0 20px 60px rgba(0,0,0,0.20)',
+    },
+  }}
+>
+  <DialogContent
+    sx={{
+      p: { xs: 3, sm: 4 },
+      backgroundColor: '#fff',
+      position: 'relative',
+    }}
+  >
+    {/* CLOSE BUTTON */}
+    <IconButton
+      onClick={() => setQuoteOpen(false)}
+      sx={{
+        position: 'absolute',
+        right: 12,
+        top: 12,
+        color: '#555',
+        '&:hover': {
+          backgroundColor: '#FFF4DD',
+          color: '#F5A000',
+        },
+      }}
+    >
+      <CloseIcon />
+    </IconButton>
+
+    {/* HEADING */}
+    <Box
+      sx={{
+        textAlign: 'center',
+        mb: 3,
+        pt: 1,
+      }}
+    >
+      <Typography
+        sx={{
+          color: '#F5A000',
+          fontWeight: 700,
+          fontSize: '12px',
+          letterSpacing: '3px',
+          mb: 0.7,
+        }}
+      >
+        GET IN TOUCH
+      </Typography>
+
+      <Typography
+        sx={{
+          color: '#111',
+          fontWeight: 800,
+          fontSize: { xs: '28px', sm: '36px' },
+          lineHeight: 1.1,
+        }}
+      >
+        REQUEST A{' '}
+        <span style={{ color: '#F5A000' }}>
+          QUOTE
+        </span>
+      </Typography>
+
+      <Typography
+        sx={{
+          color: '#777',
+          fontSize: '14px',
+          mt: 1.8,
+        }}
+      >
+        Fill in your details and we'll respond via WhatsApp — fast.
+      </Typography>
+    </Box>
+
+    {/* NAME */}
+    <TextField
+      fullWidth
+      name="name"
+      placeholder="Your Name *"
+      value={quoteForm.name}
+      onChange={handleQuoteChange}
+      sx={{
+        mb: 2,
+
+        '& .MuiOutlinedInput-root': {
+          color: '#222',
+          backgroundColor: '#fff',
+          borderRadius: '9px',
+
+          '& fieldset': {
+            borderColor: '#D8D8D8',
+          },
+
+          '&:hover fieldset': {
+            borderColor: '#F5A000',
+          },
+
+          '&.Mui-focused fieldset': {
+            borderColor: '#F5A000',
+          },
+        },
+
+        '& input::placeholder': {
+          color: '#888',
+          opacity: 1,
+        },
+      }}
+    />
+
+    {/* PHONE */}
+    <TextField
+      fullWidth
+      name="phone"
+      placeholder="Phone Number *"
+      value={quoteForm.phone}
+      onChange={handleQuoteChange}
+      sx={{
+        mb: 2,
+
+        '& .MuiOutlinedInput-root': {
+          color: '#222',
+          backgroundColor: '#fff',
+          borderRadius: '9px',
+
+          '& fieldset': {
+            borderColor: '#D8D8D8',
+          },
+
+          '&:hover fieldset': {
+            borderColor: '#F5A000',
+          },
+
+          '&.Mui-focused fieldset': {
+            borderColor: '#F5A000',
+          },
+        },
+
+        '& input::placeholder': {
+          color: '#888',
+          opacity: 1,
+        },
+      }}
+    />
+
+    {/* BRANCH */}
+    <TextField
+      select
+      fullWidth
+      name="branch"
+      value={quoteForm.branch}
+      onChange={handleQuoteChange}
+      SelectProps={{
+        displayEmpty: true,
+      }}
+      sx={{
+        mb: 2,
+
+        '& .MuiOutlinedInput-root': {
+          color: quoteForm.branch ? '#222' : '#888',
+          backgroundColor: '#fff',
+          borderRadius: '9px',
+
+          '& fieldset': {
+            borderColor: '#D8D8D8',
+          },
+
+          '&:hover fieldset': {
+            borderColor: '#F5A000',
+          },
+
+          '&.Mui-focused fieldset': {
+            borderColor: '#F5A000',
+          },
+        },
+
+        '& .MuiSvgIcon-root': {
+          color: '#F5A000',
+        },
+      }}
+    >
+      <MenuItem value="" disabled>
+        Select Branch
+      </MenuItem>
+
+      <MenuItem value="KBM">
+        KBM
+      </MenuItem>
+
+      <MenuItem value="RMC">
+        RMC
+      </MenuItem>
+    </TextField>
+
+    {/* PRODUCT / SERVICE */}
+    <TextField
+      select
+      fullWidth
+      name="product"
+      value={quoteForm.product}
+      onChange={handleQuoteChange}
+      disabled={!quoteForm.branch}
+      SelectProps={{
+        displayEmpty: true,
+      }}
+      sx={{
+        mb: 2,
+
+        '& .MuiOutlinedInput-root': {
+          color: '#222',
+          backgroundColor: '#fff',
+          borderRadius: '9px',
+
+          '& fieldset': {
+            borderColor: '#D8D8D8',
+          },
+
+          '&:hover fieldset': {
+            borderColor: '#F5A000',
+          },
+
+          '&.Mui-focused fieldset': {
+            borderColor: '#F5A000',
+          },
+        },
+
+        '& .MuiSvgIcon-root': {
+          color: '#F5A000',
+        },
+      }}
+    >
+      <MenuItem value="" disabled>
+        {quoteForm.branch
+          ? 'Select Product / Service'
+          : 'Select Branch First'}
+      </MenuItem>
+
+      {quoteForm.branch &&
+        branchProducts[quoteForm.branch]?.map((product) => (
+          <MenuItem
+            key={product}
+            value={product}
+          >
+            {product}
+          </MenuItem>
+        ))}
+    </TextField>
+
+    {/* REQUIREMENT */}
+    <TextField
+      fullWidth
+      multiline
+      rows={3}
+      name="requirement"
+      placeholder="Describe your requirement (optional)"
+      value={quoteForm.requirement}
+      onChange={handleQuoteChange}
+      sx={{
+        mb: 2,
+
+        '& .MuiOutlinedInput-root': {
+          color: '#222',
+          backgroundColor: '#fff',
+          borderRadius: '9px',
+
+          '& fieldset': {
+            borderColor: '#D8D8D8',
+          },
+
+          '&:hover fieldset': {
+            borderColor: '#F5A000',
+          },
+
+          '&.Mui-focused fieldset': {
+            borderColor: '#F5A000',
+          },
+        },
+
+        '& textarea::placeholder': {
+          color: '#888',
+          opacity: 1,
+        },
+      }}
+    />
+
+    {/* WHATSAPP BUTTON */}
+    <Button
+      fullWidth
+      variant="contained"
+      onClick={handleQuoteSubmit}
+      sx={{
+        backgroundColor: '#F5A000',
+        color: '#fff',
+        fontWeight: 700,
+        fontSize: '16px',
+        textTransform: 'none',
+        borderRadius: '9px',
+        py: 1.6,
+        boxShadow: 'none',
+
+        '&:hover': {
+          backgroundColor: '#D98D00',
+          boxShadow: 'none',
+        },
+      }}
+    >
+      WhatsApp — Send Enquiry
+    </Button>
+  </DialogContent>
+</Dialog>
       </Box>
     </Box>
   );

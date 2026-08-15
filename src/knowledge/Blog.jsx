@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Grid, Typography, Button, Card, Chip } from '@mui/material';
 import {
   Dialog,
@@ -240,6 +241,7 @@ Build stronger, smarter, and more sustainably with KIPIPL Premium M-Sand.
 
 const Blog = () => {
   const [selectedBlog, setSelectedBlog] = React.useState(null);
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ backgroundColor: '#F8F9FA', py: { xs: 4, md: 6 } }}>
@@ -312,6 +314,7 @@ const Blog = () => {
               <Button
                 variant="outlined"
                 startIcon={<SupportAgentOutlinedIcon />}
+                onClick={() => navigate('/contact')}
                 sx={{
                   borderColor: '#F5A000',
                   color: '#111111',
