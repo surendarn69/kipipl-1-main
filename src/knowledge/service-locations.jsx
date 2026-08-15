@@ -165,7 +165,7 @@ Product / Service: ${quoteForm.product}
 Requirement: ${quoteForm.requirement || 'Not specified'}
     `;
 
-    const whatsappUrl = `https://wa.me/6379702569?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/8220624590?text=${encodeURIComponent(message)}`;
 
     window.open(whatsappUrl, '_blank');
   };

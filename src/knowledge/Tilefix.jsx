@@ -208,6 +208,14 @@ const FooterCol = ({ title, links }) => (
 /* ------------------------------------------------------------------ */
 
 export default function TileFixPro() {
+  const handleGetQuote = () => {
+    const phoneNumber = "918220624590";
+    const message = "Hello KIPIPL, I am interested in Tile Fix Pro. I would like to get a quote.";
+    
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappUrl, "_blank");
+  };
   const applications = [
     { label: "Ceramic Tiles", img: ceramicTilesImg },
     { label: "Vitrified Tiles", img: vitrifiedTilesImg },
@@ -309,10 +317,13 @@ const faqsRight = [
 
       <div className="flex flex-wrap gap-3 mt-7">
 
-        <button className="flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors">
-          Get a Quote
-          <ArrowRight className="w-4 h-4" />
-        </button>
+        <button
+  onClick={handleGetQuote}
+  className="flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors"
+>
+  Get a Quote
+  <ArrowRight className="w-4 h-4" />
+</button>
 
         <button className="flex items-center gap-2 bg-white/80 border border-gray-300 text-gray-800 text-xs font-bold px-6 py-3 rounded-sm hover:bg-white transition-colors">
           Enquire Now
@@ -505,9 +516,12 @@ const faqsRight = [
             designed to help professionals achieve a secure, precise, and
             dependable tile installation.
           </p>
-          <button className="mt-6 inline-flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors">
-            Get a Quote <ArrowRight className="w-4 h-4" />
-          </button>
+          <button
+  onClick={handleGetQuote}
+  className="mt-6 inline-flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors"
+>
+  Get a Quote <ArrowRight className="w-4 h-4" />
+</button>
         </div>
       </section>
 
@@ -571,9 +585,12 @@ const faqsRight = [
             </div>
           </div>
           <div className="flex gap-3 shrink-0">
-            <button className="flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors">
-              Get a Quote <ArrowRight className="w-4 h-4" />
-            </button>
+            <button
+  onClick={handleGetQuote}
+  className="flex items-center gap-2 bg-red-600 text-white text-xs font-bold px-6 py-3 rounded-sm hover:bg-red-700 transition-colors"
+>
+  Get a Quote <ArrowRight className="w-4 h-4" />
+</button>
             
           </div>
         </div>
