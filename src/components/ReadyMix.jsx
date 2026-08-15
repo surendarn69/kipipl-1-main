@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
-import ReadyMiximg from '../Assests/readymix.png';
+import ReadyMiximg from '../Assests/Readymix2.jpg';
 import KRM from '../Assests/KRM.jpeg';
 
 import KRMC from '../Assests/KRMC.png';
@@ -208,42 +208,33 @@ const ReadyMix = () => {
               </Box>
 
               {/* RIGHT IMAGE */}
-              <Box
-                sx={{
-                  flex: 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minWidth: 0,
-    overflow: 'hidden',
-                }}
-              >
-                <Box
-  component="img"
-  src={ReadyMiximg}
-  alt="Ready Mix"
+<Box
   sx={{
+    flex: 1,
     width: '100%',
-    maxWidth: { xs: '100%', md: '620px' },
-
-    height: 'auto',            // image original ratio maintain pannum
-    maxHeight: {
-      xs: '240px',
-      sm: '300px',
-      md: '420px'
-    },
-
-    objectFit: 'contain',      // crop aagathu
-    display: 'block',
-
-    borderRadius: '16px',
-    background: '#fff',
-    padding: { xs: 1, md: 2 },
-
-    boxShadow: '0px 8px 24px rgba(0,0,0,0.08)',
+    minWidth: 0,
+    display: 'flex',
+    alignItems: 'stretch',
+    justifyContent: 'stretch',
   }}
-/>
-              </Box>
+>
+  <Box
+    component="img"
+    src={ReadyMiximg}
+    alt="Kannan Ready Mix Concrete"
+    sx={{
+      width: '100%',
+      height: { xs: '240px', sm: '320px', md: '420px' },
+
+      objectFit: 'cover',
+
+      display: 'block',
+      borderRadius: '16px',
+
+      boxShadow: '0px 8px 24px rgba(0,0,0,0.08)',
+    }}
+  />
+</Box>
             </Box>
 
             {/* GALLERY SECTION */}

@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Grid, Typography, Button, Divider, Card } from '@mui/material';
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -63,8 +64,8 @@ const districts = [
   {
     name: 'Namakkal District',
     icon: <ApartmentIcon />,
-    countLabel: '3 Locations',
-    locations: ['Namakkal', 'Tiruchengode', 'Kumarapalayam'],
+    countLabel: '2 Locations',
+    locations: ['Tiruchengode', 'Kumarapalayam'],
     products: ['Ready Mix Concrete', 'Solid Blocks', 'M Sand', 'P Sand'],
   },
 ];
@@ -94,6 +95,7 @@ const whyChoose = [
 
 const ServiceLocations = () => {
   const coverageRef = useRef(null);
+  const navigate = useNavigate();
 
   const scrollToCoverage = () => {
     coverageRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -450,24 +452,28 @@ const ServiceLocations = () => {
               </Typography>
             </Box>
             <Button
-              variant="contained"
-              endIcon={<ArrowForwardIcon />}
-              sx={{
-                backgroundColor: '#F5A000',
-                color: '#fff',
-                fontWeight: 700,
-                fontSize: '13px',
-                textTransform: 'none',
-                borderRadius: '10px',
-                px: 3,
-                py: 1.2,
-                whiteSpace: 'nowrap',
-                boxShadow: 'none',
-                '&:hover': { backgroundColor: '#d98d00', boxShadow: 'none' },
-              }}
-            >
-              Get Free Quote
-            </Button>
+  variant="contained"
+  endIcon={<ArrowForwardIcon />}
+  onClick={() => navigate('/contact')}
+  sx={{
+    backgroundColor: '#F5A000',
+    color: '#fff',
+    fontWeight: 700,
+    fontSize: '13px',
+    textTransform: 'none',
+    borderRadius: '10px',
+    px: 3,
+    py: 1.2,
+    whiteSpace: 'nowrap',
+    boxShadow: 'none',
+    '&:hover': {
+      backgroundColor: '#d98d00',
+      boxShadow: 'none',
+    },
+  }}
+>
+  Get Free Quote
+</Button>
           </Box>
         </Card>
       </Box>

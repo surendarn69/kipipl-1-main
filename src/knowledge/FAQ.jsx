@@ -118,7 +118,7 @@ export default function FAQ() {
   },
 
   {
-    q: "What areas are covered within 20 KM radius of Chennimalai?",
+    q: "What areas are covered within 40 KM radius of Chennimalai?",
     a: "KIPIPL serves Chennimalai and multiple locations across Erode, Tiruppur and Namakkal districts. Our listed service locations include Erode, Perundurai, Gobichettipalayam, Bhavani, Anthiyur, Chennimalai, Modakurichi, Kodumudi, Sivagiri and Arachalur in Erode District; Tiruppur, Kangeyam, Dharapuram and Uthukuli in Tiruppur District; and Namakkal, Tiruchengode and Kumarapalayam in Namakkal District. For a specific site location, customers can contact our team to confirm service availability.",
   },
 
@@ -132,10 +132,7 @@ export default function FAQ() {
     a: "KIPIPL serves 4 listed locations in Tiruppur District: Tiruppur, Kangeyam, Dharapuram and Uthukuli. Ready Mix Concrete, Solid Blocks, M Sand and P Sand are available as part of the listed product range. Customers can contact KIPIPL with their project location and material requirements to enquire about availability and service options.",
   },
 
-  {
-    q: "Which locations does KIPIPL serve in Namakkal District?",
-    a: "KIPIPL serves 3 listed locations in Namakkal District: Namakkal, Tiruchengode and Kumarapalayam. The listed products available across these service locations include Ready Mix Concrete, Solid Blocks, M Sand and P Sand. Customers can contact our team to discuss their construction requirements and confirm the available products and service options for their location.",
-  },
+  
 
   {
     q: "What construction materials does KIPIPL supply?",
@@ -241,14 +238,14 @@ export default function FAQ() {
               className="flex items-center gap-3 text-sm font-bold text-gray-900 hover:text-yellow-500"
             >
               <Phone className="w-4 h-4 text-yellow-500 shrink-0" />
-              +91 82206 24590
+              +91 82206 24590 - Crusher
             </a>
             <a
               href="tel:+917200830590"
               className="flex items-center gap-3 text-sm font-bold text-gray-900 hover:text-yellow-500"
             >
               <Phone className="w-4 h-4 text-yellow-500 shrink-0" />
-              +91 72008 30590
+              +91 72008 30590 - RMC
             </a>
           </div>
 
