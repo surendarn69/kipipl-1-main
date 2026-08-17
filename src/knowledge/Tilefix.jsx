@@ -206,16 +206,50 @@ const FooterCol = ({ title, links }) => (
 /*  Main component (navbar NOT included — mount this below your own   */
 /*  navbar component)                                                 */
 /* ------------------------------------------------------------------ */
-
 export default function TileFixPro() {
-  const handleGetQuote = () => {
-    const phoneNumber = "918220624590";
-    const message = "Hello KIPIPL, I am interested in Tile Fix Pro. I would like to get a quote.";
-    
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+const [quoteOpen, setQuoteOpen] = React.useState(false);
 
-    window.open(whatsappUrl, "_blank");
-  };
+const [quoteForm, setQuoteForm] = React.useState({
+  name: "",
+  phone: "",
+  location: "",
+  surface: "",
+  bagCount: "",
+  description: "",
+});
+
+const handleQuoteChange = (e) => {
+  setQuoteForm({
+    ...quoteForm,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleGetQuote = () => {
+  setQuoteOpen(true);
+};
+
+const handleQuoteSubmit = () => {
+  const phoneNumber = "919842830590";
+
+  const message = `Hello KIPIPL,
+
+I am interested in Tile Fix Pro.
+
+Name: ${quoteForm.name}
+Phone: ${quoteForm.phone}
+Location: ${quoteForm.location}
+Surface: ${quoteForm.surface}
+Bag Count: ${quoteForm.bagCount} bags (20 KG each)
+Description: ${quoteForm.description || "Not specified"}`;
+
+  const whatsappUrl =
+    `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappUrl, "_blank");
+
+  setQuoteOpen(false);
+};
   const applications = [
     { label: "Ceramic Tiles", img: ceramicTilesImg },
     { label: "Vitrified Tiles", img: vitrifiedTilesImg },
@@ -595,7 +629,154 @@ const faqsRight = [
           </div>
         </div>
       </section>
+{/* GET A QUOTE POPUP */}
+{quoteOpen && (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4">
+    <div className="relative w-full max-w-lg bg-white rounded-xl shadow-2xl overflow-hidden">
 
+      {/* Header */}
+      <div className="bg-black px-6 py-5">
+        <button
+          type="button"
+          onClick={() => setQuoteOpen(false)}
+          className="absolute top-4 right-4 text-white text-xl"
+        >
+          ×
+        </button>
+
+        <p className="text-xs font-bold tracking-[3px] text-red-600">
+          TILE FIX PRO
+        </p>
+
+        <h2 className="text-2xl font-black text-white mt-1">
+          GET A <span className="text-red-600">QUOTE</span>
+        </h2>
+
+        <p className="text-xs text-gray-400 mt-2">
+          Fill in your details and our team will contact you.
+        </p>
+      </div>
+
+      {/* Form */}
+      <div className="p-6 space-y-4">
+
+        {/* Name */}
+        <input
+          type="text"
+          name="name"
+          placeholder="Name *"
+          value={quoteForm.name}
+          onChange={handleQuoteChange}
+          className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-red-600"
+        />
+
+        {/* Phone */}
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone Number *"
+          value={quoteForm.phone}
+          onChange={handleQuoteChange}
+          className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-red-600"
+        />
+
+        {/* Location */}
+        <input
+          type="text"
+          name="location"
+          placeholder="Location *"
+          value={quoteForm.location}
+          onChange={handleQuoteChange}
+          className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-red-600"
+        />
+
+        {/* Surface */}
+        <div>
+          <p className="text-xs font-bold text-gray-700 mb-2">
+            Surface *
+          </p>
+
+          <div className="grid grid-cols-3 gap-2">
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="surface"
+                value="Floor"
+                checked={quoteForm.surface === "Floor"}
+                onChange={handleQuoteChange}
+                className="hidden peer"
+              />
+              <div className="border border-gray-300 rounded-md px-3 py-3 text-center text-sm peer-checked:bg-red-600 peer-checked:text-white peer-checked:border-red-600">
+                Floor
+              </div>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="surface"
+                value="Wall"
+                checked={quoteForm.surface === "Wall"}
+                onChange={handleQuoteChange}
+                className="hidden peer"
+              />
+              <div className="border border-gray-300 rounded-md px-3 py-3 text-center text-sm peer-checked:bg-red-600 peer-checked:text-white peer-checked:border-red-600">
+                Wall
+              </div>
+            </label>
+
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="surface"
+                value="Ceiling"
+                checked={quoteForm.surface === "Ceiling"}
+                onChange={handleQuoteChange}
+                className="hidden peer"
+              />
+              <div className="border border-gray-300 rounded-md px-3 py-3 text-center text-sm peer-checked:bg-red-600 peer-checked:text-white peer-checked:border-red-600">
+                Ceiling
+              </div>
+            </label>
+
+          </div>
+        </div>
+
+        {/* Bag Count */}
+        <input
+          type="number"
+          min="1"
+          name="bagCount"
+          placeholder="Bag Count (20 KG per bag) *"
+          value={quoteForm.bagCount}
+          onChange={handleQuoteChange}
+          className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-red-600"
+        />
+
+        {/* Description */}
+        <textarea
+          name="description"
+          rows="3"
+          placeholder="Description"
+          value={quoteForm.description}
+          onChange={handleQuoteChange}
+          className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm outline-none focus:border-red-600 resize-none"
+        />
+
+        {/* Submit */}
+        <button
+          type="button"
+          onClick={handleQuoteSubmit}
+          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-sm py-3.5 rounded-md transition-colors"
+        >
+          Send Enquiry on WhatsApp
+        </button>
+
+      </div>
+    </div>
+  </div>
+)}
       {/* FOOTER */}
       <footer className="bg-gray-900 pt-14 pb-6">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-10">

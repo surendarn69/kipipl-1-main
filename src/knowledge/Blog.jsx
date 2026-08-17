@@ -295,6 +295,12 @@ const Blog = () => {
               <Button
                 variant="contained"
                 startIcon={<MenuBookOutlinedIcon />}
+                onClick={() => {
+    document.getElementById("featured-articles")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }}
                 sx={{
                   backgroundColor: '#F5A000',
                   color: '#fff',
@@ -371,7 +377,7 @@ const Blog = () => {
         </Grid>
 
         {/* ================= FEATURED ARTICLES ================= */}
-        <Box>
+        <Box id="featured-articles">
           <Box
             sx={{
               display: 'flex',

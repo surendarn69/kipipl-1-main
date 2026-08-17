@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import {
   Box,
   Grid,
@@ -116,6 +116,9 @@ const branchProducts = {
     '53 mm',
     'Rough Stone',
     'Dust',
+    '4” Solid Block',
+    '6” Solid Block',
+    '8” Solid Block',
   ],
 
   RMC: [
@@ -130,7 +133,7 @@ const branchProducts = {
 };
 const ServiceLocations = () => {
   const coverageRef = useRef(null);
-  const navigate = useNavigate();
+  
 
   const [quoteOpen, setQuoteOpen] = React.useState(false);
 
@@ -165,7 +168,7 @@ Product / Service: ${quoteForm.product}
 Requirement: ${quoteForm.requirement || 'Not specified'}
     `;
 
-    const whatsappUrl = `https://wa.me/8220624590?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/918220624590?text=${encodeURIComponent(message)}`;
 
     window.open(whatsappUrl, '_blank');
   };
@@ -528,7 +531,7 @@ Requirement: ${quoteForm.requirement || 'Not specified'}
             <Button
   variant="contained"
   endIcon={<ArrowForwardIcon />}
-  onClick={() => navigate('/contact')}
+  onClick={() => setQuoteOpen(true)}
   sx={{
     backgroundColor: '#F5A000',
     color: '#fff',

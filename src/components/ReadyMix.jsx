@@ -63,26 +63,26 @@ const ReadyMix = () => {
             }}
           >
             {/* TOP SECTION */}
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                gap: { xs: 5, md: 12, lg: 14 },
-                px: { xs: 3, md: 7, lg: 8 },
-                py: { xs: 5, md: 7 },
-              }}
-            >
+             <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', md: 'row' },
+                    alignItems: 'stretch',
+                    justifyContent: 'space-between',
+                    gap: { xs: 5, md: 7, lg: 8 },
+                    px: { xs: 3, md: 7, lg: 8 },
+                    py: { xs: 5, md: 6 },
+                  }}
+              >
               {/* LEFT CONTENT */}
               <Box
-                sx={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-start',
-                  pt: { md: 1 },
-                }}
+                  sx={{
+                    flex: '1 1 50%',
+                    minWidth: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
               >
                 {/* Main Heading */}
                 <Typography
@@ -210,10 +210,8 @@ const ReadyMix = () => {
              {/* RIGHT IMAGE */}
 <Box
   sx={{
-    flex: '1 1 45%',
-    width: '100%',
+    flex: '1 1 50%',
     minWidth: 0,
-    maxWidth: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -224,16 +222,15 @@ const ReadyMix = () => {
     src={ReadyMiximg}
     alt="Kannan Ready Mix Concrete"
     sx={{
-      width: '100%',
+      width: '118%',
       height: 'auto',
-      maxWidth: '100%',
+      maxWidth: '118%',
       display: 'block',
 
-      // IMPORTANT: image crop ஆகாது
+      // IMPORTANT - FULL IMAGE, NO CROP
       objectFit: 'contain',
 
       borderRadius: '16px',
-
       boxShadow: '0px 8px 24px rgba(0,0,0,0.08)',
     }}
   />
